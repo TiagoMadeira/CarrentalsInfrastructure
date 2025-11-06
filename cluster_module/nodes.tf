@@ -43,11 +43,11 @@ resource "aws_eks_node_group" "general" {
         aws_subnet.private_zone2.id,
     ]
 
-    capacity_type = "SPOT"
-    instance_types = ["t3.micro"]
+    capacity_type = "ON_DEMAND"
+    instance_types = ["t3.small"]
 
     scaling_config {
-      desired_size = 1
+      desired_size = 2
       max_size = 10
       min_size = 0
     }
@@ -57,7 +57,7 @@ resource "aws_eks_node_group" "general" {
     }
 
     labels = {
-      roles = "genral"
+      roles = "general"
     }
 
     depends_on = [ aws_iam_role_policy_attachment.amazon_eks_cni_policy,
