@@ -5,7 +5,7 @@ resource "aws_vpc" "main" {
     enable_dns_hostnames = true
 
     tags = {
-        Name = "${var.enviorment}-main"
+        Name = "${var.environment}-main"
     }
 }
 
@@ -15,7 +15,7 @@ resource "aws_subnet" "private_zone1" {
     availability_zone   = var.zone1
 
     tags = {
-        "Name"                               = "${var.enviorment}-private-${var.zone1}"
+        "Name"                               = "${var.environment}-private-${var.zone1}"
         "kubernetes.io/role/internal-elb"    = "1"
     }
 }
@@ -26,7 +26,7 @@ resource "aws_subnet" "private_zone2" {
     availability_zone   = var.zone2
 
     tags = {
-        "Name"                               = "${var.enviorment}-private-${var.zone2}"
+        "Name"                               = "${var.environment}-private-${var.zone2}"
         "kubernetes.io/role/internal-elb"    = "1"
     }
 }
@@ -38,7 +38,7 @@ resource "aws_subnet" "public_zone1" {
     map_public_ip_on_launch = true
 
     tags = {
-        "Name"                               = "${var.enviorment}-public-${var.zone1}"
+        "Name"                               = "${var.environment}-public-${var.zone1}"
         "kubernetes.io/role/elb"             = "1"
     }
 }
@@ -50,7 +50,7 @@ resource "aws_subnet" "public_zone2" {
     map_public_ip_on_launch = true
 
     tags = {
-        "Name"                               = "${var.enviorment}-public-${var.zone2}"
+        "Name"                               = "${var.environment}-public-${var.zone2}"
         "kubernetes.io/role/elb"             = "1"
     }
 }

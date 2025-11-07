@@ -1,5 +1,5 @@
 resource "aws_iam_role" "nodes" {
-    name = "${var.enviorment}-${var.eks_name}-eks-nodes"
+    name = "${var.environment}-${var.eks_name}-eks-nodes"
     assume_role_policy = <<POLICY
     {
         "Version": "2012-10-17",		 	 	 
@@ -39,8 +39,8 @@ resource "aws_eks_node_group" "general" {
     node_role_arn = aws_iam_role.nodes.arn
 
     subnet_ids = [
-        aws_subnet.private_zone1.id,
-        aws_subnet.private_zone2.id,
+        var.subnet_private_zone1_id,
+        var.subnet_private_zone2_id,
     ]
 
     capacity_type = "ON_DEMAND"

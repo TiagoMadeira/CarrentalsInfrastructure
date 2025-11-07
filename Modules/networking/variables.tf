@@ -1,9 +1,8 @@
-variable "enviorment" {
-  description = "The enviorment we are in"
+variable "environment" {
+  description = "The environment we are in"
   type        = string
   default     = "staging"
 }
-
 
 #VPC variables
 variable "region" {
@@ -20,19 +19,6 @@ variable "zone1" {
 
 variable "zone2" {
   description = "Second availability zone for the subnets"
-  type        = string
-  default     = "staging"
-}
-
-#Cluster variables
-variable "eks_name" {
-  description = "Name of the cluster"
-  type        = string
-  default     = "staging"
-}
-
-variable "eks_version" {
-  description = "Version of kubernetes"
   type        = string
   default     = "staging"
 }

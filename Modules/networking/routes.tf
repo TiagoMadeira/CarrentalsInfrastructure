@@ -7,7 +7,7 @@ resource "aws_route_table" "private" {
     }
 
     tags = {
-        Name = "${var.enviorment}-private"
+        Name = "${var.environment}-private"
     }
 }
 
@@ -18,7 +18,7 @@ resource "aws_route_table" "public" {
         gateway_id = aws_internet_gateway.igw.id
     }
     tags = {
-        Name = "${var.enviorment}-public"
+        Name = "${var.environment}-public"
     }
 }
 

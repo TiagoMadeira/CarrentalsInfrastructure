@@ -1,0 +1,10 @@
+# Local .terraform directories
+**/.terraform/*
+
+# Ignore variables files
+*.auto.tfvars
+
+# .tfstate files
+*.tfstate
+*.tfstate.*
+*.terraform.lock.*
