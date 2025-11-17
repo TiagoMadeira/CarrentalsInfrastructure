@@ -33,7 +33,8 @@ resource "aws_iam_policy" "secrets_carrental" {
           "secretsmanager:GetSecretValue",
           "secretsmanager:DescribeSecret"
         ]
-        Resource = "arn:aws:secretsmanager:eu-west-3:265766434062:secret:staging/carrental-secret-3MAyfG"
+        Resource = ["arn:aws:secretsmanager:eu-west-3:265766434062:secret:staging/carrental-secret-3MAyfG",
+                    "arn:aws:secretsmanager:eu-west-3:265766434062:secret:staging/carrental-db-secret-WcjRhu"]
       }
     ]
   })
