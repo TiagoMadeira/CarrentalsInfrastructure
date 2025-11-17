@@ -8,13 +8,19 @@ variable "environment" {
 variable "eks_name" {
   description = "Name of the cluster"
   type        = string
-  default     = "staging"
+  default     = "eks-cluster"
 }
 
 variable "eks_version" {
   description = "Version of kubernetes"
   type        = string
-  default     = "staging"
+  default     = "latest"
+}
+
+variable "eks_instances_type" {
+  description = "Instances type of the nodes"
+  type        = string
+  default     = "t3.large"
 }
 
 variable "vpc_id" {

@@ -25,21 +25,23 @@ provider "aws" {
 module "networking"{
   source = "./../../Modules/networking"
 
-    environment      = "staging"
-    region           = "eu-west-3"
-    zone1            = "eu-west-3a"
-    zone2            = "eu-west-3c"
+    environment      = var.environment
+    region           = var.vpc_region
+    zone1            = var.zone1
+    zone2            = var.zone2
 
 }
+
 
 
 module "eks_cluster" {
     source = "./../../Modules/EKS_cluster"
 
   # Input Variables
-    environment               = "staging"
-    eks_name                  = "carrental-cluster"
-    eks_version               = "1.33"
+    environment               = var.environment
+    eks_name                  = var.eks_name
+    eks_version               = var.eks_version
+    eks_instances_type        = var.eks_instances_type
     vpc_id                    = module.networking.vpc_id
     subnet_private_zone1_id   = module.networking.subnet_private_zone1_id
     subnet_private_zone2_id   = module.networking.subnet_private_zone2_id
@@ -50,12 +52,13 @@ module "eks_cluster" {
 
 module "rds_db" {
    source = "./../../Modules/RDS"
-
-   db_name                    = "StagingCarrentalDb"
-   engine                     = "postgres"
+  
+   db_name                    = var.database_name
+   engine                     = var.database_engine
    vpc_id                     = module.networking.vpc_id
    subnet_private_zone1_id    = module.networking.subnet_private_zone1_id
    subnet_private_zone2_id    = module.networking.subnet_private_zone2_id
+   allocated_storage          = var.database_allocated_storage
 
    depends_on = [ module.networking ]
 }
@@ -67,6 +70,8 @@ module "api_gateway" {
   vpc_id                      = module.networking.vpc_id
   subnet_private_zone1_id     = module.networking.subnet_private_zone1_id
   subnet_private_zone2_id     = module.networking.subnet_private_zone2_id
+  integration_uri             = var.api_gateway_integration_uri
+
 }
 
 output "signup_url" {

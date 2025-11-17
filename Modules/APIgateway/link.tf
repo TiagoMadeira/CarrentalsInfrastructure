@@ -11,7 +11,7 @@ resource "aws_apigatewayv2_vpc_link" "eks" {
 resource "aws_apigatewayv2_integration" "eks" {
   api_id                = aws_apigatewayv2_api.main.id
 
-  integration_uri       = "arn:aws:elasticloadbalancing:eu-west-3:265766434062:listener/net/k8s-ingress-external-877e342152/7bee3851aaf2a1be/49b65f2be3503a7a"
+  integration_uri       = var.integration_uri
   integration_type      = "HTTP_PROXY"
   integration_method    = "ANY"
   connection_type       = "VPC_LINK"

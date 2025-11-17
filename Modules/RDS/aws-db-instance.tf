@@ -11,7 +11,7 @@ data "aws_secretsmanager_secret_version" "secrets_carrental_db" {
 
 #Instaciate RDS
 resource "aws_db_instance" "RDS" {
-  allocated_storage       = 10
+  allocated_storage       = var.allocated_storage
   db_name                 = var.db_name
   engine                  = var.engine
   instance_class          = "db.t3.micro"

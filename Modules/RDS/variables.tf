@@ -18,3 +18,9 @@ variable "subnet_private_zone1_id" {
 variable "subnet_private_zone2_id" {
     description = "id of subnet private zone2"
 }
+
+variable "allocated_storage" {
+    description = "size in gigabytes of allocated storage"
+    type = number
+    default = 20
+}
