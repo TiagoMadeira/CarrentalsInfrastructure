@@ -1,12 +1,12 @@
-# resource "helm_release" "external_nginx" {
-#     name = "external"
+resource "helm_release" "external_nginx" {
+    name = "external"
 
-#     repository          = "https://kubernetes.github.io/ingress-nginx"
-#     chart               = "ingress-nginx"
-#     namespace           = "ingress"
-#     create_namespace    = true
+    repository          = "https://kubernetes.github.io/ingress-nginx"
+    chart               = "ingress-nginx"
+    namespace           = "ingress"
+    create_namespace    = true
 
-#     values              = [file("./cluster_module/values/nginx-ingress.yaml")]
+    values              = [file("./../../Modules/EKS_cluster/values/nginx-ingress.yaml")]
     
-#     depends_on          = [helm_release.aws_lbc]
-# }
+    depends_on          = [helm_release.aws_lbc]
+}
