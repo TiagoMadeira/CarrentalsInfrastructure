@@ -8,3 +8,8 @@ output "subnet_private_zone2_id" {
   value       = aws_subnet.private_zone2.id
 }
 
+output "vpc_id" {
+  description = "Vpc id"
+  value       = aws_vpc.main.id
+}
+
