@@ -17,6 +17,10 @@ variable "eks_version" {
   default     = "staging"
 }
 
+variable "vpc_id" {
+    description = "Id of the VPC"
+}
+
 variable "subnet_private_zone1_id" {
   description = "Private zone1 id"
   type        = string
