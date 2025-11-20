@@ -41,3 +41,8 @@ variable "database_allocated_storage" {
 variable "api_gateway_integration_uri" {
     description = "Uri for the api integration"
 }
+
+variable "secrets_arn" {
+    description = "Secret's arn you wish to give read permissions"
+    type        = list(string)
+}

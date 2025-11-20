@@ -1,5 +1,5 @@
 resource "aws_iam_role" "cluster_autoscaler" {
-  name = "${aws_eks_cluster.eks.name}-cluster-autoscaler"
+  name = "${var.eks_name}-cluster-autoscaler"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -19,7 +19,7 @@ resource "aws_iam_role" "cluster_autoscaler" {
 }
 
 resource "aws_iam_policy" "cluster_autoscaler" {
-  name = "${aws_eks_cluster.eks.name}-cluster-autoscaler"
+  name = "${var.eks_name}-cluster-autoscaler"
 
   policy = jsonencode({
     Version = "2012-10-17"
@@ -58,7 +58,7 @@ resource "aws_iam_role_policy_attachment" "cluster_autoscaler" {
 }
 
 resource "aws_eks_pod_identity_association" "cluster_autoscaler" {
-  cluster_name    = aws_eks_cluster.eks.name
+  cluster_name    = var.eks_name
   namespace       = "kube-system"
   service_account = "cluster-autoscaler"
   role_arn        = aws_iam_role.cluster_autoscaler.arn
@@ -78,15 +78,13 @@ resource "helm_release" "cluster_autoscaler" {
     },
     {
     name  = "autoDiscovery.clusterName"
-    value = aws_eks_cluster.eks.name
+    value = var.eks_name
     },
 
   # MUST be updated to match your region 
     {
-    name  = "awsRegion"
-    value = "eu-west-3"
+    name  = "awsRegion" 
+    value = var.eks_region
   }]
-
-  depends_on = [aws_eks_node_group.general]
 
 }

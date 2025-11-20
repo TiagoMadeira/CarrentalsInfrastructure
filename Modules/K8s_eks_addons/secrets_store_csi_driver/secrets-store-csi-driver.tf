@@ -5,24 +5,24 @@ data "aws_iam_policy_document" "secrets_carrental" {
 
     condition {
       test      = "StringEquals"
-      variable  = "${replace(aws_iam_openid_connect_provider.eks.url, "https://", "")}:sub"
+      variable  = "${replace(var.aws_iam_openid_connect_provider_url, "https://", "")}:sub"
       values    = ["system:serviceaccount:default:carrental-sa"]
     }
 
     principals {
-      identifiers = [aws_iam_openid_connect_provider.eks.arn]
+      identifiers = [var.aws_iam_openid_connect_provider_arn]
       type        = "Federated"
     } 
   }
 }
 
 resource "aws_iam_role" "secrets_carrental" {
- name               = "${aws_eks_cluster.eks.name}-secrets-carrental"
+ name               = "${var.eks_name}-secrets-carrental"
  assume_role_policy = data.aws_iam_policy_document.secrets_carrental.json
 }
 
 resource "aws_iam_policy" "secrets_carrental" {
-  name = "${aws_eks_cluster.eks.name}-secrets-carrental"
+  name = "${var.eks_name}-secrets-carrental"
 
   policy = jsonencode({
     Version = "2012-10-17"
@@ -33,8 +33,7 @@ resource "aws_iam_policy" "secrets_carrental" {
           "secretsmanager:GetSecretValue",
           "secretsmanager:DescribeSecret"
         ]
-        Resource = ["arn:aws:secretsmanager:eu-west-3:265766434062:secret:staging/carrental-secret-3MAyfG",
-                    "arn:aws:secretsmanager:eu-west-3:265766434062:secret:staging/carrental-db-secret-WcjRhu"]
+        Resource = var.secrets_arn
       }
     ]
   })
@@ -63,9 +62,6 @@ resource "helm_release" "secrets_csi_driver" {
       name  = "syncSecret.enabled"
       value = true
     }]
-
-    depends_on = [aws_eks_addon.ebs_csi_driver]
-
 }
 
 #cloud secrets provider

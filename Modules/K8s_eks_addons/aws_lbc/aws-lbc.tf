@@ -15,12 +15,12 @@ data "aws_iam_policy_document" "aws_lbc" {
 }
 
 resource "aws_iam_role" "aws_lbc" {
-    name                = "${aws_eks_cluster.eks.name}-aws-lbc"
+    name                = "${var.eks_name}-aws-lbc"
     assume_role_policy  = data.aws_iam_policy_document.aws_lbc.json
 }
 
 resource "aws_iam_policy" "aws_lbc" {
-    policy = file("./../../Modules/EKS_cluster/iam/AWSLoadBalancerController.json")
+    policy = file("./../../Modules/K8s_eks_addons/aws_lbc/iam/AWSLoadBalancerController.json")
     name   = "AWSLoadBalancerController"
 }
 
@@ -30,7 +30,7 @@ resource "aws_iam_role_policy_attachment" "aws_lbc" {
 }
 
 resource "aws_eks_pod_identity_association" "aws_lbc" {
-    cluster_name    = aws_eks_cluster.eks.name
+    cluster_name    = var.eks_name
     namespace       = "kube-system"
     service_account = "aws-load-balancer-controller"
     role_arn        = aws_iam_role.aws_lbc.arn
@@ -46,7 +46,7 @@ resource "helm_release" "aws_lbc" {
 
     set =  [ {
         name = "clusterName"
-        value = aws_eks_cluster.eks.name
+        value = var.eks_name
     },
     {
         name = "serviceAccount.name"
@@ -57,5 +57,4 @@ resource "helm_release" "aws_lbc" {
         value = var.vpc_id
     } ]
 
-    depends_on = [helm_release.cluster_autoscaler]
 }
